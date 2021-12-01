@@ -19,16 +19,12 @@
         </button>
       </div>
       <div class="Todo-area">
-        <p style="font-weight: bold">Todo</p>
+        <p style="font-weight: bold">TODO</p>
         <ul style="padding: 0; margin: 0">
           <li class="listitem" v-for="(item, index) in lists" :key="index">
             <div class="wait">
               {{ item.value }}
               <div>
-                <img
-                  class="Icon"
-                  src="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-pencil-interface-kiranshastry-lineal-color-kiranshastry.png"
-                />
                 <img
                   class="Icon"
                   v-on:click="finish_todo(index)"
@@ -46,7 +42,7 @@
       </div>
 
       <div class="Complete-area">
-        <p style="font-weight: bold">Complete</p>
+        <p style="font-weight: bold">COMPLETE</p>
         <ul style="padding: 0; margin: 0">
           <li
             class="listitem"
@@ -74,6 +70,7 @@
 export default {
   data() {
     return {
+      isshow: true,
       id: "",
       input_data: "",
       input: "hello word123",
@@ -81,7 +78,7 @@ export default {
       finish_count: 0,
       lists: [],
       finish_lists: [],
-      change_value: "",
+      time: "",
     };
   },
   methods: {
@@ -90,23 +87,18 @@ export default {
     },
     add_todo() {
       var data = this.input_data;
-      this.lists.push({ id: this.count, value: data });
+      this.lists.push({ id: this.count, timestamp: this.time, value: data });
       this.count++;
       this.input_data = "";
     },
     finish_todo(id) {
       var finishdata = this.lists[id].value;
-      console.log(finishdata);
       this.finish_lists.push({ id: this.finish_count, value: finishdata });
       this.finish_count++;
-      console.log(this.finish_lists);
       this.lists.splice(id, 1);
     },
     delete_finish_todo(id) {
       this.finish_lists.splice(id, 1);
-    },
-    edit_todo(id) {
-      this.list[id].value = change_value;
     },
   },
 };
