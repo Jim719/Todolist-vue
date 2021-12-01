@@ -4,36 +4,40 @@
     <div class="content">
       <div class="Input-area">
         <input
-          style="padding: 5px"
+          style="padding: 5px; margin-top: 5px"
           type="text"
           placeholder="Enter Event"
           v-model="input_data"
         />
         <button
-          style="margin-left: 10px"
           type="button"
-          class="close"
+          style="margin-left: 5px"
+          class="btn btn-warning"
           v-on:click="add_todo"
         >
-          submmit
+          Submmit
         </button>
       </div>
       <div class="Todo-area">
         <p style="font-weight: bold">Todo</p>
-        <ul>
+        <ul style="padding: 0; margin: 0">
           <li class="listitem" v-for="(item, index) in lists" :key="index">
             <div class="wait">
               {{ item.value }}
               <div>
                 <img
                   class="Icon"
+                  src="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-pencil-interface-kiranshastry-lineal-color-kiranshastry.png"
+                />
+                <img
+                  class="Icon"
                   v-on:click="finish_todo(index)"
-                  src="https://img.icons8.com/dotty/50/000000/checked-2.png"
+                  src="https://img.icons8.com/fluency/48/000000/checkmark.png"
                 />
                 <img
                   class="Icon"
                   v-on:click="delete_todo(index)"
-                  src="https://img.icons8.com/dotty/50/000000/delete-sign.png"
+                  src="https://img.icons8.com/emoji/48/000000/cross-mark-emoji.png"
                 />
               </div>
             </div>
@@ -43,16 +47,24 @@
 
       <div class="Complete-area">
         <p style="font-weight: bold">Complete</p>
-        <div class="finish">
-          {{ input }}
-          <div>
-            <img
-              class="Icon"
-              src="https://img.icons8.com/dotty/50/000000/delete-sign.png"
-              style="height: 100%"
-            />
-          </div>
-        </div>
+        <ul style="padding: 0; margin: 0">
+          <li
+            class="listitem"
+            v-for="(item, index) in finish_lists"
+            :key="index"
+          >
+            <div class="finish">
+              {{ item.value }}
+              <div>
+                <img
+                  class="Icon"
+                  v-on:click="delete_finish_todo(index)"
+                  src="https://img.icons8.com/emoji/48/000000/cross-mark-emoji.png"
+                />
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -69,13 +81,12 @@ export default {
       finish_count: 0,
       lists: [],
       finish_lists: [],
+      change_value: "",
     };
   },
   methods: {
     delete_todo(id) {
-      // console.log(id);
       this.lists.splice(id, 1);
-      alert("deleted");
     },
     add_todo() {
       var data = this.input_data;
@@ -87,8 +98,15 @@ export default {
       var finishdata = this.lists[id].value;
       console.log(finishdata);
       this.finish_lists.push({ id: this.finish_count, value: finishdata });
-      this.count++;
+      this.finish_count++;
       console.log(this.finish_lists);
+      this.lists.splice(id, 1);
+    },
+    delete_finish_todo(id) {
+      this.finish_lists.splice(id, 1);
+    },
+    edit_todo(id) {
+      this.list[id].value = change_value;
     },
   },
 };
@@ -98,8 +116,8 @@ export default {
 .title {
   height: 70px;
   width: 100vw;
-  background-color: rgb(236, 201, 154);
-  color: #696969;
+  background-color: #f4a261;
+  color: #2b2b2b;
   font-size: 40px;
 }
 .container {
@@ -115,20 +133,24 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 7px;
 }
 .Complete-area,
 .Todo-area {
   margin-top: 15px;
   height: 200px;
   width: 400px;
-  border: solid rgba(247, 199, 137, 0.925);
+  border: solid #f4a261;
+  border-radius: 10px;
 }
 .wait,
 .finish {
+  margin-top: 5px;
   height: 25px;
   width: 100%;
   background-color: inherit;
-  border: 2px solid #f7e439bd;
+  border: 2px solid #e9c46a;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -136,15 +158,12 @@ export default {
 .Icon {
   cursor: pointer;
   height: 100%;
+  margin-bottom: 2px;
 }
 .listitem {
+  padding: 0;
+  margin: 0;
+  width: 100%;
   list-style-type: none;
-}
-.close:hover,
-.close:focus {
-  box-shadow: inset -3.5em 0 0 0 var(--hover), inset 3.5em 0 0 0 var(--hover);
-}
-.close {
-  color: #ff7f82;
 }
 </style>
